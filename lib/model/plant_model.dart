@@ -1,43 +1,43 @@
-class PlantList {
+class PlantModel {
   final String plant;
-  final String? string;
+  final String? title;
 
-  PlantList({required this.plant, this.string});
+  PlantModel({required this.plant, this.title});
 }
 
 List data = [
   {
     "plant": "assets/rose.jpg",
-    "string": "Rose",
+    "title": "Rose",
   },
   {
     "plant": "assets/bonsai.jpg",
-    "string": "Bonsai",
+    "title": "Bonsai",
   },
   {
     "plant": "assets/mint.jpg",
-    "string": "Mint",
+    "title": "Mint",
   },
   {
     "plant": "assets/money plant.jpg",
-    "string": "Money plant",
+    "title": "Money plant",
   },
   {
     "plant": "assets/bamboo.jpg",
-    "string": "Bamboo",
+    "title": "Bamboo",
   },
   {
     "plant": "assets/tulsi.jpg",
-    "string": "Tulsi",
+    "title": "Tulsi",
   },
 ];
 
-List<PlantList> getPlantList() {
+List<PlantModel> getPlantList() {
   return data
       .map(
-        (item) => PlantList(
+        (item) => PlantModel(
           plant: item["plant"],
-          string: item["string"],
+          title: item["title"],
         ),
       )
       .toList();

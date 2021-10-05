@@ -1,9 +1,10 @@
-import 'package:assignment_12/model/newmodel.dart';
-import 'package:assignment_12/model/plant_list.dart';
-import 'package:flutter/cupertino.dart';
+//import 'package:assignment_12/model/plant_list.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+
+import 'model/plant_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,10 +14,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<PlantModel> myNursery = getPlantList();
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    var newModel = getlist() as List;
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -52,20 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Center(
           child: Container(
               child: (_selectedIndex == 0)
-                  ? List(
-                      name: newModel.name,
+                  ? ListItem(
+                      plant: "${data[_selectedIndex].plant}",
+                      title: "${data[_selectedIndex].title}",
                     )
-                  : Grid()),
+                  : GridItem(
+                      plant: "${data[_selectedIndex].plant}",
+                      title: "${data[_selectedIndex].title}",
+                    )),
         ));
   }
 }
 
-class List extends StatelessWidget {
-  final String name;
-  const List({
-    Key? key,
-    required this.name,
-  }) : super(key: key);
+class ListItem extends StatelessWidget {
+  final String plant;
+  final String title;
+  const ListItem({Key? key, required this.plant, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +85,13 @@ class List extends StatelessWidget {
               children: [
                 Padding(padding: EdgeInsets.all(10)),
                 Image.asset(
-                  'assets/plant1.jpg',
+                  "$plant",
                   height: 100,
                   width: 100,
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text(
-                  'Plant Name : $name',
+                  'Plant Name : $title',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 Padding(padding: EdgeInsets.all(10)),
@@ -104,10 +109,11 @@ class List extends StatelessWidget {
   }
 }
 
-class Grid extends StatelessWidget {
-  const Grid({
-    Key? key,
-  }) : super(key: key);
+class GridItem extends StatelessWidget {
+  final String plant;
+  final String title;
+  const GridItem({Key? key, required this.plant, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
