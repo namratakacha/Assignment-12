@@ -1,9 +1,11 @@
-//import 'package:assignment_12/model/plant_list.dart';
-//import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
+import 'package:assignment_12/model/plant_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-
+import 'package:flutter/widgets.dart';
 import 'model/plant_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +14,11 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+
+// List<Widget> _list = [
+//   const ListItem(),
+//   const GridItem(),
+// ];
 
 class _HomeScreenState extends State<HomeScreen> {
   List<PlantModel> myNursery = getPlantList();
@@ -51,55 +58,64 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {});
           },
         ),
-        body: Center(
-          child: Container(
-              child: (_selectedIndex == 0)
-                  ? ListItem(
-                      plant: "${data[_selectedIndex].plant}",
-                      title: "${data[_selectedIndex].title}",
-                    )
-                  : GridItem(
-                      plant: "${data[_selectedIndex].plant}",
-                      title: "${data[_selectedIndex].title}",
-                    )),
-        ));
+        body: (_selectedIndex == 0) ? ListItem() : GridItem());
   }
 }
 
+List<PlantModel> getPlantList() {
+  return data
+      .map(
+        (item) => PlantModel(
+          plant: item["plant"],
+          title: item["title"],
+        ),
+      )
+      .toList();
+}
+
 class ListItem extends StatelessWidget {
-  final String plant;
-  final String title;
-  const ListItem({Key? key, required this.plant, required this.title})
-      : super(key: key);
+  const ListItem({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<PlantModel> myNursery = getPlantList();
     return ListView.builder(
-      itemCount: 6,
+      itemCount: myNursery.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
             elevation: 16,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(padding: EdgeInsets.all(10)),
-                Image.asset(
-                  "$plant",
-                  height: 100,
-                  width: 100,
+                //Padding(padding: EdgeInsets.all(10)),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          myNursery[index].plant,
+                          height: 100,
+                          width: 100,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          '${myNursery[index].title}',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_forward_ios)),
+                        Spacer()
+                      ],
+                    )
+                  ],
                 ),
-                Padding(padding: EdgeInsets.all(10)),
-                Text(
-                  'Plant Name : $title',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                Padding(padding: EdgeInsets.all(10)),
-                IconButton(
-                    onPressed: () {
-                      print('object');
-                    },
-                    icon: Icon(Icons.arrow_forward_ios))
               ],
             ),
           ),
@@ -110,15 +126,15 @@ class ListItem extends StatelessWidget {
 }
 
 class GridItem extends StatelessWidget {
-  final String plant;
-  final String title;
-  const GridItem({Key? key, required this.plant, required this.title})
-      : super(key: key);
+  const GridItem({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<PlantModel> myNursery = getPlantList();
     return GridView.builder(
-        itemCount: 6,
+        itemCount: myNursery.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
@@ -131,13 +147,13 @@ class GridItem extends StatelessWidget {
                 children: [
                   Padding(padding: EdgeInsets.all(5)),
                   Image.asset(
-                    'assets/plant1.jpg',
+                    myNursery[index].plant,
                     height: 100,
                     width: 100,
                   ),
                   Padding(padding: EdgeInsets.all(5)),
                   Text(
-                    'Rose',
+                    "${myNursery[index].title}",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   ElevatedButton(
