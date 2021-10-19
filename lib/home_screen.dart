@@ -140,7 +140,6 @@ class GridItem extends StatelessWidget {
                     height: 100,
                     width: 100,
                   ),
-                  Padding(padding: EdgeInsets.all(5)),
                   Text(
                     "${myNursery[index].title}",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
