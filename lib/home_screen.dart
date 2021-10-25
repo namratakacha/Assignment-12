@@ -74,37 +74,64 @@ class ListItem extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Card(
-            shadowColor: Colors.green,
-            color: Colors.lightGreenAccent[50],
-            elevation: 16,
-            child: Row(
-              children: [
-                Image.asset(
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      DetailScreen(detail: myNursery[index])));
+            },
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              shadowColor: Colors.green,
+              color: Colors.lightGreenAccent[50],
+              elevation: 8,
+              child: ListTile(
+                leading: Image.asset(
                   myNursery[index].plant,
-                  height: 80,
-                  width: 80,
+                  // height: 100,
+                  // width: 100,
                 ),
-                SizedBox(width: 20),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    '${myNursery[index].title}',
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
+                title: Text(
+                  '${myNursery[index].title}',
+                  style: TextStyle(fontSize: 20),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                DetailScreen(detail: myNursery[index])));
-                      },
-                      icon: Icon(Icons.arrow_forward_ios)),
-                )
-              ],
+                trailing: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              DetailScreen(detail: myNursery[index])));
+                    },
+                    icon: Icon(Icons.arrow_forward_ios)),
+              ),
             ),
+            // child: Row(
+            //   children: [
+            //     Image.asset(
+            //       myNursery[index].plant,
+            //       height: 80,
+            //       width: 80,
+            //     ),
+            //     SizedBox(width: 20),
+            //     Expanded(
+            //       flex: 2,
+            //       child: Text(
+            //         '${myNursery[index].title}',
+            //         style:
+            //             TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       flex: 1,
+            //       child: IconButton(
+            //           onPressed: () {
+            //             Navigator.of(context).push(MaterialPageRoute(
+            //                 builder: (context) =>
+            //                     DetailScreen(detail: myNursery[index])));
+            //           },
+            //           icon: Icon(Icons.arrow_forward_ios)),
+            //     )
+            //   ],
+            // ),
           ),
         );
       },
@@ -128,30 +155,51 @@ class GridItem extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.all(8.0),
-            child: Card(
-              shadowColor: Colors.green,
-              color: Colors.lightGreenAccent[50],
-              elevation: 16,
-              child: Column(
-                children: [
-                  Padding(padding: EdgeInsets.all(5)),
-                  Image.asset(
-                    myNursery[index].plant,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Text(
-                    "${myNursery[index].title}",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                DetailScreen(detail: myNursery[index])));
-                      },
-                      child: Text('Details', style: TextStyle(fontSize: 14)))
-                ],
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        DetailScreen(detail: myNursery[index])));
+              },
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shadowColor: Colors.green,
+                color: Colors.lightGreenAccent[50],
+                elevation: 8,
+                child: Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    Padding(padding: EdgeInsets.all(5)),
+                    Ink.image(
+                        padding: EdgeInsets.all(10),
+                        image: AssetImage(
+                          myNursery[index].plant,
+                        )),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent.withOpacity(0.4),
+                      child: ListTile(
+                        leading: Text(
+                          "${myNursery[index].title}",
+                          //textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                        trailing: IconButton(
+                            iconSize: 20,
+                            color: Colors.white,
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailScreen(detail: myNursery[index])));
+                            },
+                            icon: Icon(Icons.arrow_forward_ios)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
